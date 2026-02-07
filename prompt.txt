@@ -1,0 +1,23 @@
+# ============================================================
+#  YOUR PROMPT
+# ============================================================
+#  Write your instructions / question below this block.
+#  Lines starting with # are ignored (they are comments).
+#
+#  Any files you place in the "input" folder will be
+#  attached automatically — the AI will see their contents
+#  right after your prompt.
+#
+#  EXAMPLES:
+#    "Summarize the attached document."
+#    "Find every claim, piece of evidence, and axiom in the text."
+#    "Translate the following into Spanish."
+#    "Analyze the biblical prophecy in the attached file and list
+#     each prophecy, its source verse, and its historical context."
+#    "Read the Slack export and extract action items per person."
+# ============================================================
+
+Analyze the attached files. For each file:
+1. Summarize the key points.
+2. Extract all claims, evidence, axioms, and hypotheses.
+3. Note anything that is ambiguous or requires further research.
