@@ -1,0 +1,5 @@
+# Prompt for API_CALL_09
+# Write what you want the AI to do with the files in inbox/.
+# Lines starting with # are ignored.
+
+Summarize the attached files and list the key points.

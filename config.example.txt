@@ -1,30 +1,40 @@
 # ============================================================
-#  OpenAI API Configuration
+#  Multi-AI Call System — Configuration
 # ============================================================
-#  COPY this file to  config.txt  and paste your real key below.
-#  Get one at: https://platform.openai.com/api-keys
-# ============================================================
-
-OPENAI_API_KEY=sk-PASTE-YOUR-KEY-HERE
-
-# ============================================================
-#  Model Selection
-# ============================================================
-#  Options:  gpt-4o  |  gpt-4o-mini  |  gpt-4-turbo  |  o1  |  o3-mini
-#  gpt-4o-mini is cheapest, gpt-4o is the default all-rounder.
+#  COPY this file to  config.txt  and paste your real keys below.
+#  Lines starting with # are ignored. You only need keys for the
+#  providers you actually want to use — leave the rest blank.
+#
+#  Keys can ALSO be set as environment variables of the same name,
+#  which is handy if you move this folder between machines.
 # ============================================================
 
-MODEL=gpt-4o
+# ---- API KEYS (fill in the ones you have) ----
+OPENAI_API_KEY=sk-PASTE-YOUR-OPENAI-KEY-HERE
+ANTHROPIC_API_KEY=sk-PASTE-YOUR-ANTHROPIC-KEY-HERE
+DEEPSEEK_API_KEY=
+MOONSHOT_API_KEY=
+GEMINI_API_KEY=
+XAI_API_KEY=
 
 # ============================================================
-#  Max Tokens for the response (higher = longer answers, more cost)
-#  Set to 0 for the model's default maximum.
+#  Optional: override the default model for any provider.
+#  (Run  python ai_call.py list  to see the defaults.)
 # ============================================================
+# OPENAI_MODEL=gpt-4o-mini
+# ANTHROPIC_MODEL=claude-haiku-4-5
+# DEEPSEEK_MODEL=deepseek-chat
+# MOONSHOT_MODEL=kimi-k2-0711-preview
+# GEMINI_MODEL=gemini-2.0-flash
+# XAI_MODEL=grok-2-latest
 
+# ============================================================
+#  Optional: response limits (apply to every provider)
+# ============================================================
 MAX_TOKENS=4096
+# TEMPERATURE=0.7        # OpenAI-style providers only; Claude ignores this
 
 # ============================================================
-#  Temperature  (0.0 = deterministic, 1.0 = creative, 2.0 = wild)
+#  Optional behavior
 # ============================================================
-
-TEMPERATURE=0.7
+# KEEP_INBOX=true        # don't move inbox files to process/ after a run

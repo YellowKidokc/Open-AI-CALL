@@ -4,6 +4,12 @@ config.txt
 # Output files are local
 output/*.txt
 
+# Job working files are local (keep the folder structure, not the data)
+jobs/**/inbox/*
+jobs/**/process/*
+jobs/**/outbox/*
+!jobs/**/.gitkeep
+
 # Python cache
 __pycache__/
 *.pyc
