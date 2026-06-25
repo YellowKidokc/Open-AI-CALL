@@ -1,0 +1,6 @@
+# Optional per-job settings. Delete or leave blank to use defaults.
+# PROVIDER=anthropic        # force this job onto one provider
+# MODEL=claude-haiku-4-5    # force a specific model
+# SOURCE=                   # a file OR folder to read INSTEAD of inbox/
+#                           # (e.g. an Obsidian note: C:\Vault\paper.md)
+# DESCRIPTION=word-cluster  # short tag added to the output filename

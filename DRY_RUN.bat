@@ -1,8 +1,8 @@
 @echo off
 :: ============================================================
-::  Dry Run — shows cost estimate without calling the API
+::  Dry Run — shows the cost on every provider, calls nothing
 :: ============================================================
-title OpenAI Dry Run (Cost Estimate)
+title Multi-AI Dry Run (Cost Estimate)
 cd /d "%~dp0"
 
 where python >nul 2>&1
@@ -12,7 +12,12 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-python "%~dp0call_openai.py" --dry-run
+if not exist "jobs" (
+    python "%~dp0ai_call.py" init
+)
+
+:: Preview cost for ALL jobs across every configured provider
+python "%~dp0ai_call.py" dry-run --jobs all
 
 echo.
 pause
