@@ -207,11 +207,30 @@ def process_folder(folder, dry_run=False, workers=1, max_cost=None,
     if dry_run:
         if not api_key:
             print(f"    ! no API key for {provider} (add {pconf['key_names'][0]} to keys.txt)")
+        price = P.price_for(provider, model)
+        est_total = 0.0
         for entry in pending:
             atts = attachments_for(entry)
-            print(f"    [DRY] '{entry.name}' ({len(atts)} file(s)) "
-                  f"-> {provider}/{model} -> {out_fmt}")
-        return {"folder": name, "ok": 0, "failed": 0, "skipped": len(pending), "cost": 0.0}
+            in_chars = len(prompt) + len(fmt_note)
+            for nm, p, kind in atts:
+                if kind == "text":
+                    try:
+                        in_chars += p.stat().st_size
+                    except OSError:
+                        pass
+                elif kind == "image":
+                    in_chars += 4000          # rough image token-equivalent
+            in_tok = max(1, in_chars // 4)
+            out_tok = min(max_tokens or 1024, 1024)
+            cost = (in_tok / 1000 * price[0] + out_tok / 1000 * price[1]) if price else 0.0
+            est_total += cost
+            tag = f"${cost:.4f}" if price else "$ n/a"
+            print(f"    [DRY] '{entry.name}' ({len(atts)} file(s)) -> "
+                  f"{provider}/{model} -> {out_fmt}  ~{in_tok} in tok, est {tag}")
+        note = "" if price else "  (no pricing table for this model -- cost unknown)"
+        print(f"    {name}: ~{len(pending)} call(s), est ${est_total:.4f}{note}")
+        return {"folder": name, "ok": 0, "failed": 0,
+                "skipped": len(pending), "cost": est_total}
 
     state = {"cost": 0.0, "ok": 0, "failed": 0, "skipped": 0}
     lock = threading.Lock()

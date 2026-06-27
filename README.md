@@ -11,9 +11,11 @@ for every file you drop into its `inbox/`.
 ```
 Open-AI-CALL/
 ├── keys.txt                 <- your API keys (paste once; git-ignored)
-├── RUN_ALL.bat / .sh        <- process EVERY folder's inbox in one go
+├── INSTALL.bat / .sh        <- one-time: install the Python packages
+├── DRY_RUN_ALL.bat / .sh    <- estimate the cost; makes NO API calls
+├── RUN_ALL.bat / .sh        <- process EVERY folder's inbox (4 at a time)
 ├── TROUBLESHOOT_ALL.bat/.sh <- health-check everything (keys, configs, queues)
-├── NEW_FOLDER.bat / .sh     <- scaffold another station (expand past 10)
+├── NEW_FOLDER.bat / .sh     <- scaffold the next station (11th, 12th, ...)
 │
 ├── api_call_01/             <- one "station"
 │   ├── config.txt           <-   which provider + model
@@ -31,10 +33,29 @@ Open-AI-CALL/
 └── core/                    <- the shared engine (providers, client, worker)
 ```
 
+## The outer "operating" scripts (work for ANY number of folders)
+
+These five live at the top level and always act on **every** `api_call_*` folder
+that exists — whether you have 10, 11, or 50. Add folders and they're picked up
+automatically; you never edit these scripts.
+
+| Script | What it does |
+|--------|--------------|
+| `INSTALL`          | One-time: installs the Python packages |
+| `DRY_RUN_ALL`      | Estimates the cost of everything queued — **spends nothing** |
+| `RUN_ALL`          | Processes every inbox, **4 calls at a time** (override: `RUN_ALL.bat --workers 8`) |
+| `TROUBLESHOOT_ALL` | Health-checks keys, configs, queues, and recent errors |
+| `NEW_FOLDER`       | Creates the next station (`api_call_11`, `12`, …) from `_template` |
+
+`_template/` is the blueprint. `NEW_FOLDER` copies it to the next number — that's
+how you "pop out" an 11th folder. (You can also just copy any `api_call_NN`
+folder and rename it; each one is fully self-contained.)
+
 ## Quick start
 
 1. **Install Python 3.8+** (https://www.python.org/downloads/). On Windows,
-   check *"Add Python to PATH"* during install.
+   check *"Add Python to PATH"* during install. Then double-click
+   **`INSTALL.bat`** (Mac/Linux: `./INSTALL.sh`) to install the packages.
 
 2. **Add your keys.** Copy `keys.example.txt` → `keys.txt` and paste in the
    keys for the providers you use. You only paste each key **once** — every
@@ -55,12 +76,17 @@ Open-AI-CALL/
 4. **Drop files** into a station's `inbox/`. Each file becomes one API call
    (your prompt + that file's contents).
 
-5. **Run it.**
+5. **(Optional) Check the price first:** double-click **`DRY_RUN_ALL.bat`** —
+   it lists every call that would run and an estimated total cost, without
+   spending anything.
+
+6. **Run it.**
    - One station: double-click its `RUN.bat` (Mac/Linux: `./RUN.sh`).
-   - **All stations at once: `RUN_ALL.bat`** (Mac/Linux: `./RUN_ALL.sh`).
+   - **All stations at once: `RUN_ALL.bat`** — runs 4 at a time. For more,
+     `RUN_ALL.bat --workers 8`.
 
    Answers land in each station's `outbox/`. Failures land in `wait/` with a
-   `.error.txt` explaining why — move them back to `inbox/` to retry.
+   `.error.txt` explaining why — or just run `RUN_ALL.bat --retry-failed`.
 
 ## How a job flows
 

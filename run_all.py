@@ -67,16 +67,21 @@ def one_pass(folders, args):
         )
         for k in totals:
             totals[k] += r.get(k, 0)
-        if remaining is not None:
+        if remaining is not None and not args.dry_run:
             remaining = max(0.0, remaining - r.get("cost", 0.0))
             if remaining <= 0:
                 print(f"\n  ! global budget cap (${args.max_cost:.2f}) reached "
                       f"-- stopping.")
                 break
     print("\n" + "-" * 64)
-    print(f"  PASS COMPLETE: {totals['ok']} ok, {totals['failed']} failed, "
-          f"{totals['skipped']} queued/skipped   est total ${totals['cost']:.4f}")
-    print(f"  ledger: runs.csv")
+    if args.dry_run:
+        print(f"  DRY RUN: {totals['skipped']} call(s) would run across "
+              f"{len(folders)} folder(s)")
+        print(f"  ESTIMATED TOTAL COST: ${totals['cost']:.4f}  (estimate only)")
+    else:
+        print(f"  PASS COMPLETE: {totals['ok']} ok, {totals['failed']} failed, "
+              f"{totals['skipped']} queued/skipped   est total ${totals['cost']:.4f}")
+        print(f"  ledger: runs.csv")
     print("-" * 64)
     return totals
 

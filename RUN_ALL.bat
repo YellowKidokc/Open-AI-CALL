@@ -13,7 +13,10 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-python "%~dp0run_all.py" %*
+:: Default to 4 calls at a time. Override by passing your own, e.g.:
+::   RUN_ALL.bat --workers 8
+::   RUN_ALL.bat --max-cost 5.00 --workers 6
+python "%~dp0run_all.py" --workers 4 %*
 
 echo.
 echo ============================================================
