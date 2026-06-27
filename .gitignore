@@ -1,13 +1,25 @@
-# Never commit your API key
-config.txt
+# ---- Secrets -- never commit ----
+keys.txt
+config.txt                     # the legacy top-level single-call config
+api_call_*/config.local.txt    # optional per-folder key override
 
-# Output files are local
+# ---- Per-folder queue contents (keep the folders, ignore the data) ----
+api_call_*/inbox/*
+api_call_*/process/*
+api_call_*/outbox/*
+api_call_*/wait/*
+!api_call_*/inbox/.gitkeep
+!api_call_*/process/.gitkeep
+!api_call_*/outbox/.gitkeep
+!api_call_*/wait/.gitkeep
+
+# ---- Legacy single-call script output ----
 output/*.txt
 
-# Python cache
+# ---- Python ----
 __pycache__/
 *.pyc
 
-# OS junk
+# ---- OS junk ----
 .DS_Store
 Thumbs.db

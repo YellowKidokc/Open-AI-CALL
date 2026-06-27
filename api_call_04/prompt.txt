@@ -1,0 +1,15 @@
+# ============================================================
+#  THIS FOLDER'S PROMPT
+# ============================================================
+#  Write the instruction below. It is applied to EVERY file you
+#  drop into this folder's  inbox/  -- each file becomes one API
+#  call (prompt + that file's contents).
+#
+#  Lines starting with # are ignored (comments).
+#
+#  Give each of your folders a DIFFERENT prompt, so each folder
+#  does a different job (summarize, translate, extract, etc.).
+# ============================================================
+
+Analyze the attached file. Summarize the key points, then list any
+claims, evidence, and open questions you find.

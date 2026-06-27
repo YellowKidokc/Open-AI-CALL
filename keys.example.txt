@@ -1,0 +1,25 @@
+# ============================================================
+#  API KEYS  --  paste your keys here, ONCE.
+# ============================================================
+#  1. Copy this file to:   keys.txt
+#  2. Paste your real keys below.
+#
+#  keys.txt is git-ignored and never committed. Every api_call_NN
+#  folder shares these keys based on its PROVIDER setting, so you
+#  only paste each key one time.
+#
+#  You only need keys for the providers you actually use -- leave
+#  the others blank.
+# ============================================================
+
+# OpenAI         https://platform.openai.com/api-keys
+OPENAI_API_KEY=
+
+# Anthropic      https://console.anthropic.com/settings/keys
+ANTHROPIC_API_KEY=
+
+# DeepSeek       https://platform.deepseek.com/api_keys
+DEEPSEEK_API_KEY=
+
+# Moonshot/Kimi  https://platform.moonshot.ai/console/api-keys
+KIMI_API_KEY=

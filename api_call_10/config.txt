@@ -1,0 +1,38 @@
+# ============================================================
+#  FOLDER CONFIG  --  picks WHO answers this folder's prompt
+# ============================================================
+#  This file has NO secrets in it -- API keys live in the repo's
+#  root  keys.txt  (copy keys.example.txt and paste your keys there,
+#  once, and every folder for that provider can use them).
+# ============================================================
+
+# Which API answers this folder?
+#   openai     -> OpenAI        (GPT-4o, ...)
+#   anthropic  -> Anthropic     (Claude)
+#   deepseek   -> DeepSeek      (deepseek-chat, deepseek-reasoner)
+#   kimi       -> Moonshot/Kimi (kimi-k2, ...)
+PROVIDER=anthropic
+
+# Model id. Leave blank to use the provider's default.
+#   openai     : gpt-4o | gpt-4o-mini | gpt-4-turbo | o3-mini
+#   anthropic  : claude-opus-4-8 | claude-sonnet-4-6 | claude-haiku-4-5
+#   deepseek   : deepseek-chat | deepseek-reasoner
+#   kimi       : kimi-k2-0905-preview | moonshot-v1-128k
+MODEL=
+
+# Max tokens in the reply (0 = provider default).
+MAX_TOKENS=4096
+
+# Sampling temperature (0.0 = focused, 1.0 = creative).
+TEMPERATURE=0.7
+
+# Anthropic only: set to "adaptive" to turn on extended thinking
+# (costs more, thinks harder). Default off keeps batch runs cheap.
+THINKING=off
+
+# Optional: a system / role instruction prepended to every call.
+SYSTEM=
+
+# Optional: paste a key here to override keys.txt for THIS folder only.
+# (Usually leave blank and use the root keys.txt instead.)
+API_KEY=
