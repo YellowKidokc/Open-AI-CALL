@@ -1,0 +1,6 @@
+# Install with:  pip install -r requirements.txt
+# (RUN_ALL also auto-installs whichever of these your folders need.)
+
+openai>=1.0      # used by the openai, deepseek, and kimi providers
+anthropic>=0.40  # used by the anthropic (Claude) provider
+openpyxl>=3.1    # only needed for OUTPUT_FORMAT=xlsx (Excel output)

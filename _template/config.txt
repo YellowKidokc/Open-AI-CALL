@@ -1,0 +1,69 @@
+# ============================================================
+#  FOLDER CONFIG  --  picks WHO answers this folder's prompt
+# ============================================================
+#  This file has NO secrets in it -- API keys live in the repo's
+#  root  keys.txt  (copy keys.example.txt and paste your keys there,
+#  once, and every folder for that provider can use them).
+# ============================================================
+
+# Which API answers this folder?
+#   openai     -> OpenAI        (GPT-4o, ...)
+#   anthropic  -> Anthropic     (Claude)
+#   deepseek   -> DeepSeek      (deepseek-chat, deepseek-reasoner)
+#   kimi       -> Moonshot/Kimi (kimi-k2, ...)
+PROVIDER=openai
+
+# Model id. Leave blank to use the provider's default.
+#   openai     : gpt-4o | gpt-4o-mini | gpt-4-turbo | o3-mini
+#   anthropic  : claude-opus-4-8 | claude-sonnet-4-6 | claude-haiku-4-5
+#   deepseek   : deepseek-chat | deepseek-reasoner
+#   kimi       : kimi-k2-0905-preview | moonshot-v1-128k
+MODEL=
+
+# Max tokens in the reply (0 = provider default).
+MAX_TOKENS=4096
+
+# Sampling temperature (0.0 = focused, 1.0 = creative).
+TEMPERATURE=0.7
+
+# Anthropic only: set to "adaptive" to turn on extended thinking
+# (costs more, thinks harder). Default off keeps batch runs cheap.
+THINKING=off
+
+# Optional: a system / role instruction prepended to every call.
+SYSTEM=
+
+# ------------------------------------------------------------
+#  OUTPUT FORMAT  --  what the answer is saved as in outbox/
+# ------------------------------------------------------------
+#   md   -> markdown + metadata header (default)
+#   txt  -> just the text
+#   json -> validated JSON
+#   csv  -> spreadsheet rows (.csv)
+#   html -> an HTML file
+#   xlsx -> a real Excel file
+#
+#  TEMPLATES: drop a file in this folder's  templates/  folder and the
+#  answer is written to match it:
+#    - templates/something.xlsx -> answer fills those columns (xlsx output)
+#    - templates/something.html -> answer replaces {{OUTPUT}} (html output)
+OUTPUT_FORMAT=md
+
+# ------------------------------------------------------------
+#  RETRIEVER  --  pull reference context (your vector engine) per call
+# ------------------------------------------------------------
+#   none    -> off (default)
+#   folder  -> read reference files from RETRIEVER_PATH
+#   command -> run your local search script; {query} is substituted,
+#              else the query is sent on stdin; its output = context
+#   http    -> POST {"query","top_k"} to RETRIEVER_URL
+RETRIEVER=none
+RETRIEVER_PATH=
+RETRIEVER_CMD=
+RETRIEVER_URL=
+RETRIEVER_TOPK=8
+RETRIEVER_MAX_CHARS=12000
+
+# Optional: paste a key here to override keys.txt for THIS folder only.
+# (Usually leave blank and use the root keys.txt instead.)
+API_KEY=
