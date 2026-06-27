@@ -33,6 +33,37 @@ THINKING=off
 # Optional: a system / role instruction prepended to every call.
 SYSTEM=
 
+# ------------------------------------------------------------
+#  OUTPUT FORMAT  --  what the answer is saved as in outbox/
+# ------------------------------------------------------------
+#   md   -> markdown + metadata header (default)
+#   txt  -> just the text
+#   json -> validated JSON
+#   csv  -> spreadsheet rows (.csv)
+#   html -> an HTML file
+#   xlsx -> a real Excel file
+#
+#  TEMPLATES: drop a file in this folder's  templates/  folder and the
+#  answer is written to match it:
+#    - templates/something.xlsx -> answer fills those columns (xlsx output)
+#    - templates/something.html -> answer replaces {{OUTPUT}} (html output)
+OUTPUT_FORMAT=md
+
+# ------------------------------------------------------------
+#  RETRIEVER  --  pull reference context (your vector engine) per call
+# ------------------------------------------------------------
+#   none    -> off (default)
+#   folder  -> read reference files from RETRIEVER_PATH
+#   command -> run your local search script; {query} is substituted,
+#              else the query is sent on stdin; its output = context
+#   http    -> POST {"query","top_k"} to RETRIEVER_URL
+RETRIEVER=none
+RETRIEVER_PATH=
+RETRIEVER_CMD=
+RETRIEVER_URL=
+RETRIEVER_TOPK=8
+RETRIEVER_MAX_CHARS=12000
+
 # Optional: paste a key here to override keys.txt for THIS folder only.
 # (Usually leave blank and use the root keys.txt instead.)
 API_KEY=

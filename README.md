@@ -22,6 +22,7 @@ Open-AI-CALL/
 │   ├── process/             <-   in-flight (auto; empty when idle)
 │   ├── outbox/              <-   finished answers
 │   ├── wait/                <-   failed jobs (with .error.txt; retry-able)
+│   ├── templates/           <-   optional .xlsx/.html to write the answer into
 │   ├── RUN.bat / .sh        <-   process just this station
 │   └── TROUBLESHOOT.bat/.sh <-   health-check just this station
 ├── api_call_02/  ...  api_call_10/
@@ -77,11 +78,63 @@ Queue up as much as you like across the 10 inboxes, then run `RUN_ALL`. It
 takes each folder **all the way through** (its entire inbox) before moving to
 the next, with automatic retries/backoff on rate limits and transient errors.
 
-To keep it running and re-scanning for new files:
+Useful flags (work on both `run_all.py` and a single folder's `worker.py`):
 
 ```
-python run_all.py --loop 60      # re-scan every 60 seconds, Ctrl+C to stop
+python run_all.py --workers 6        # 6 calls in parallel (much faster)
+python run_all.py --max-cost 5.00    # stop the run near $5 (budget guardrail)
+python run_all.py --retry-failed     # sweep every wait/ back into inbox/ and rerun
+python run_all.py --loop 60          # keep running, re-scan every 60 seconds
+python run_all.py --only api_call_03 # just these folders
 ```
+
+Every job is logged to **`runs.csv`** (timestamp, folder, file, provider, model,
+tokens, est. cost, status) and each pass prints a grand-total cost.
+
+## Output formats and templates
+
+Each folder's `config.txt` has `OUTPUT_FORMAT`:
+
+| `OUTPUT_FORMAT=` | Saved as | Notes |
+|------------------|----------|-------|
+| `md` (default)   | `.md`    | answer + a metadata header |
+| `txt`            | `.txt`   | just the text |
+| `json`           | `.json`  | validated JSON |
+| `csv`            | `.csv`   | spreadsheet rows |
+| `html`           | `.html`  | an HTML page |
+| `xlsx`           | `.xlsx`  | a real Excel file |
+
+**Writing into a template:** drop a file in the folder's `templates/` folder.
+- `templates/report.xlsx` → with `OUTPUT_FORMAT=xlsx`, the answer is written
+  into a copy of that sheet under its column headers (the model is told to use
+  exactly those columns).
+- `templates/page.html` → with `OUTPUT_FORMAT=html`, the answer replaces the
+  `{{OUTPUT}}` marker in your template.
+
+## Referencing your vector engine (RAG)
+
+When a station needs to consult your knowledge base / "the whole series" before
+answering, set a `RETRIEVER` in its `config.txt`. The relevant context is
+fetched and prepended to the prompt on every call:
+
+| `RETRIEVER=` | What it does | Set |
+|--------------|--------------|-----|
+| `none` (default) | off | — |
+| `folder`  | reads reference files from a folder | `RETRIEVER_PATH=` |
+| `command` | runs your local search script and uses its output | `RETRIEVER_CMD=` |
+| `http`    | POSTs `{"query","top_k"}` to an endpoint | `RETRIEVER_URL=` |
+
+For a local vector engine, `command` is the wire-in point:
+
+```
+RETRIEVER=command
+RETRIEVER_CMD=python C:\tools\my_vector_search.py "{query}"
+```
+
+`{query}` is replaced with the job's question (prompt + a sample of the input);
+if you omit `{query}`, the question is sent to your script on **stdin**. Whatever
+your script prints becomes the reference context. `RETRIEVER_MAX_CHARS` caps how
+much gets injected.
 
 ## The four providers
 

@@ -86,6 +86,30 @@ def check_folder(folder: pathlib.Path):
     except ValueError as e:
         print(f"  {BAD} {e}")
 
+    out_fmt = cfg.get("OUTPUT_FORMAT", "md").lower()
+    tdir = folder / "templates"
+    tmpls = [p.name for p in tdir.iterdir()
+             if p.name != ".gitkeep"] if tdir.exists() else []
+    tnote = f"  (templates: {', '.join(tmpls)})" if tmpls else ""
+    print(f"  {OK} output={out_fmt}{tnote}")
+    if out_fmt == "xlsx":
+        try:
+            __import__("openpyxl")
+        except ImportError:
+            print(f"  {WARN} OUTPUT_FORMAT=xlsx needs openpyxl  ->  pip install openpyxl")
+
+    retr = cfg.get("RETRIEVER", "none").lower()
+    if retr not in ("", "none", "off"):
+        detail = {"folder": cfg.get("RETRIEVER_PATH", ""),
+                  "command": cfg.get("RETRIEVER_CMD", ""),
+                  "http": cfg.get("RETRIEVER_URL", "")}.get(retr, "")
+        if detail:
+            print(f"  {OK} retriever={retr} -> {detail}")
+        else:
+            need = {"folder": "RETRIEVER_PATH", "command": "RETRIEVER_CMD",
+                    "http": "RETRIEVER_URL"}.get(retr, "?")
+            print(f"  {WARN} retriever={retr} but {need} is not set")
+
     prompt = folder / "prompt.txt"
     if prompt.exists() and prompt.read_text(encoding="utf-8").strip():
         body = [l for l in prompt.read_text(encoding="utf-8").splitlines()

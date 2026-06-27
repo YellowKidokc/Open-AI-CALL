@@ -33,6 +33,22 @@ THINKING=off
 # Optional: a system / role instruction prepended to every call.
 SYSTEM=
 
+# ------------------------------------------------------------
+#  OUTPUT FORMAT  (md | txt | json | csv | html | xlsx)
+#  Drop an .xlsx/.html into templates/ to write into it.
+# ------------------------------------------------------------
+OUTPUT_FORMAT=md
+
+# ------------------------------------------------------------
+#  RETRIEVER  (none | folder | command | http)  -- your vector engine
+# ------------------------------------------------------------
+RETRIEVER=none
+RETRIEVER_PATH=
+RETRIEVER_CMD=
+RETRIEVER_URL=
+RETRIEVER_TOPK=8
+RETRIEVER_MAX_CHARS=12000
+
 # Optional: paste a key here to override keys.txt for THIS folder only.
 # (Usually leave blank and use the root keys.txt instead.)
 API_KEY=
