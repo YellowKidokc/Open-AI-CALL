@@ -177,14 +177,20 @@ you want.
 
 ## Add more stations
 
+`NEW_FOLDER` duplicates `_template` into the next number, **in order** — run it
+again and again and you get 11, 12, 13, 14, … (no need to say which number):
+
 ```
-NEW_FOLDER.bat                          (next number, defaults to openai)
-NEW_FOLDER.bat --provider anthropic
-NEW_FOLDER.bat --provider deepseek --model deepseek-reasoner
+NEW_FOLDER.bat                          (make the next one)
+NEW_FOLDER.bat 5                        (make the next FIVE at once)
+NEW_FOLDER.bat --provider anthropic     (next one, set its provider)
+NEW_FOLDER.bat 3 --provider deepseek    (next three, all deepseek)
 ```
 
 Mac/Linux: `./NEW_FOLDER.sh ...`. Or just copy any `api_call_NN` folder and
-rename it — each folder is fully self-contained.
+rename it — each folder is fully self-contained. All the outer scripts
+(`RUN_ALL`, `DRY_RUN_ALL`, `TROUBLESHOOT_ALL`) automatically pick up the new
+folders.
 
 ## Troubleshooting
 

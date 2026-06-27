@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
-#  NEW FOLDER  --  scaffold another api_call_NN station (Mac/Linux)
+#  NEW FOLDER  --  scaffold the next api_call_NN station(s) (Mac/Linux)
+#    ./NEW_FOLDER.sh        make the next one (11, then 12, ...)
+#    ./NEW_FOLDER.sh 5      make the next five at once
 # ============================================================
 cd "$(dirname "$0")"
 PY="$(command -v python3 || command -v python)"
